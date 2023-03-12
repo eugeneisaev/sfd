@@ -1,0 +1,33 @@
+---
+- hosts: srv
+  become: true
+  gather_facts: no
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+  tasks:
+  - name: Copying ssh key
+    copy:
+     src: ~/.ssh/id_rsa
+     dest: /home/ubuntu/.ssh/id_rsa
+     mode: 0400
+     owner: ubuntu
+  - name: Installing aptitude using apt
+    apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+  - name: Installing required system packages
+    apt: name={{ item }} state=latest update_cache=yes
+    loop: ['ca-certificates', 'curl', 'gnupg', 'python3-pip', 'git'] 
+  - name: Adding Docker GPG apt Key
+    apt_key:
+     url: https://download.docker.com/linux/ubuntu/gpg
+     state: present
+  - name: Adding Docker Repository
+    apt_repository:
+     repo: deb https://download.docker.com/linux/ubuntu focal stable
+     state: present
+  - name: Updating apt and installing docker
+    apt: name={{ item }} state=latest update_cache=yes
+    loop: ['docker-ce', 'docker-ce-cli', 'containerd.io', 'docker-compose-plugin', 'docker-compose']
+  - name: Copying folder sprint 3
+    copy:
+     src: ../../sf-sprint-3/
+     dest: /home/ubuntu/sf-sprint-3/
