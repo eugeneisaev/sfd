@@ -47,7 +47,7 @@ docker pull evgeniy4/django-pg-docker
 ```sh
 cd sf-sprint-2/charts/
 helm upgrade --install --namespace default --values db-chart/values.yaml mydb db-chart
-helm upgrade --install --namespace default --values app-chart/values.yaml myapp app-chart.
+helm upgrade --install --namespace default --values app-chart/values.yaml myapp app-chart
 ```
 
 > Зайти в приложение по адресу ноды
