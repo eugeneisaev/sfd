@@ -106,8 +106,8 @@ resource "yandex_lb_network_load_balancer" "front-balancer" {
 data "template_file" "ansible_inventory" {
   template = file("./inventory.ini.tpl")
   vars = {
-    vm1_internal_ip  = "${module.vm_1.internal_ip_address_vm}"
-    vm2_internal_ip  = "${module.vm_2.internal_ip_address_vm}"
+    vm1_internal_ip  = "${module.vm_1.external_ip_address_vm}"
+    vm2_internal_ip  = "${module.vm_2.external_ip_address_vm}"
     vm3_external_ip  = "${module.vm_3.external_ip_address_vm}"
   }
 }
